@@ -1,0 +1,308 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://mirror.png" type="Texture" id=1]
+[ext_resource path="res://Path2D.gd" type="Script" id=2]
+[ext_resource path="res://white.png" type="Texture" id=3]
+[ext_resource path="res://poof.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Gradient" id=14]
+offsets = PoolRealArray( 0, 0.116129, 0.283871, 0.516129, 0.787097, 0.948387 )
+colors = PoolColorArray( 0.87602, 0.405272, 0, 1, 1, 0.915853, 0.0859375, 1, 1, 0.324493, 0.0898438, 1, 1, 0.701927, 0.445313, 1, 0.886719, 0.0173187, 0.0173187, 1, 0.937316, 0.771628, 0.117164, 1 )
+
+[sub_resource type="GradientTexture" id=15]
+gradient = SubResource( 14 )
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.173913, 0.9 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+trail_divisor = 5
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 10.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+angular_velocity = 30.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.8
+scale_random = 0.3
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 15 )
+
+[sub_resource type="Curve2D" id=6]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 8, -10, 0, 0, 0, 0, 16, -2, 0, 0, 0, 0, 8, 6, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 8, -10 )
+}
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+uniform float VchangeY = 0.2;
+uniform bool left = true;
+uniform bool active = false;
+
+void vertex()
+{
+	if(active) {
+		if(left)  {
+			float vertPosY = (VERTEX.x * VchangeY) + VERTEX.y;
+			VERTEX.y = vertPosY;
+		}
+	else {
+		float vertPosY = (-VERTEX.x * VchangeY) + VERTEX.y;
+    	VERTEX.y = vertPosY;
+	}
+	}
+
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/VchangeY = 0.2
+shader_param/left = true
+shader_param/active = false
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Path2D/PathFollow2D/Sprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "angry"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "angryTalking"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 9, 10, 11, 2 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "happy"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "iron"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 13 ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "mando"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "sad"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "sadTalking"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 1 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "talking"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path2D/PathFollow2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5, 0 ]
+}
+
+[node name="Scene" type="Node2D"]
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 120, 184 )
+amount = 100
+randomness = 1.0
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D2" type="Particles2D" parent="."]
+position = Vector2( 144, 184 )
+amount = 100
+randomness = 0.49
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D3" type="Particles2D" parent="."]
+position = Vector2( 168, 192 )
+amount = 100
+randomness = 0.49
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D4" type="Particles2D" parent="."]
+position = Vector2( 192, 184 )
+amount = 100
+randomness = 0.49
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D5" type="Particles2D" parent="."]
+position = Vector2( 72, 184 )
+amount = 100
+randomness = 0.49
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D6" type="Particles2D" parent="."]
+position = Vector2( 96, 192 )
+amount = 100
+randomness = 0.49
+process_material = SubResource( 13 )
+texture = ExtResource( 3 )
+
+[node name="Mask" type="Node2D" parent="."]
+position = Vector2( 128, 80 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Path2D" type="Path2D" parent="Mask"]
+curve = SubResource( 6 )
+script = ExtResource( 2 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Mask/Path2D"]
+position = Vector2( 8, -10 )
+rotation = 1.66146
+rotate = false
+
+[node name="Sprite" type="Sprite" parent="Mask/Path2D/PathFollow2D"]
+material = SubResource( 8 )
+rotation = -1.66146
+scale = Vector2( 2, 2.4375 )
+texture = ExtResource( 1 )
+hframes = 3
+vframes = 5
+region_rect = Rect2( 0, 0, 48, 48 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Mask/Path2D/PathFollow2D"]
+root_node = NodePath("../../..")
+playback_speed = 0.8
+anims/RESET = SubResource( 1 )
+anims/angry = SubResource( 2 )
+anims/angryTalking = SubResource( 9 )
+anims/happy = SubResource( 3 )
+anims/iron = SubResource( 16 )
+anims/mando = SubResource( 17 )
+anims/sad = SubResource( 4 )
+anims/sadTalking = SubResource( 10 )
+anims/talking = SubResource( 5 )
+
+[node name="Particles2D" parent="Mask/Path2D/PathFollow2D" instance=ExtResource( 4 )]

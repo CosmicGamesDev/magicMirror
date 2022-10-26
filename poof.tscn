@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://poof.png" type="Texture" id=1]
+[ext_resource path="res://poof.gd" type="Script" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id=3]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.0280374, 0.392523, 0.82243, 1 )
+colors = PoolColorArray( 0.762074, 0.690104, 0.821706, 1, 0.596705, 0.125839, 0.767018, 1, 0.962402, 0.828125, 1, 1, 0.366337, 0.0226374, 0.579518, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=2]
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 5.0
+color_ramp = SubResource( 4 )
+hue_variation = 0.05
+hue_variation_random = 0.15
+anim_speed = 1.4
+
+[node name="Particles2D" type="Particles2D"]
+visible = false
+material = SubResource( 1 )
+amount = 1
+one_shot = true
+speed_scale = 1.1
+process_material = SubResource( 2 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.65
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
